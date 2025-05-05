@@ -23,63 +23,68 @@ export class GameViewModel {
 
     private remainingAttempt!: number;
 
+    private guesses!: Guess[];
+
     constructor(private readonly randomGenerator: RandomGenerator,
                 private readonly config: { max: number, attempt: number }) { }
 
     newGame(): GameVM {
         this.toGuessNumber = Math.floor(this.randomGenerator.get() * this.config.max);
         this.remainingAttempt = this.config.attempt;
+        this.guesses = [];
+
         return {
             state: GameState.IN_PROGRESS,
-            guesses: []
+            guesses: this.guesses
         };
     }
 
     guess(userGuess: number): GameVM {
         this.remainingAttempt--;
         if (userGuess === this.toGuessNumber) {
+            this.guesses.push({
+                userGuess: userGuess,
+                response: "Gagné !"
+            });
+
             return {
                 state: GameState.WIN,
-                guesses: [
-                    {
-                        userGuess: userGuess,
-                        response: "Gagné !"
-                    }
-                ]
+                guesses: this.guesses
             };    
         }
 
         if (this.remainingAttempt === 0) {
+            this.guesses.push({
+                userGuess: userGuess,
+                response: "Perdu !"
+            });
+
             return {
                 state: GameState.LOSE,
-                guesses: [
-                    {
-                        userGuess: userGuess,
-                        response: "Perdu !"
-                    }
-                ]
+                guesses: this.guesses
             };
         }
 
         if (this.toGuessNumber < userGuess) {
+            this.guesses.push({
+                userGuess: userGuess,
+                response: "Trop grand !"
+            });
+
             return {
                 state: GameState.IN_PROGRESS,
-                guesses: [
-                    {
-                        userGuess: userGuess,
-                        response: "Trop grand !"
-                    }
-                ]
+                guesses: this.guesses
             };
+
         } else {
+            this.guesses.push({
+                userGuess: userGuess,
+                response: "Trop petit !"
+            });
+            
             return {
                 state: GameState.IN_PROGRESS,
-                guesses: [
-                    {
-                        userGuess: userGuess,
-                        response: "Trop petit !"
-                    }
-                ]
+                guesses: this.guesses
             };
 
         }

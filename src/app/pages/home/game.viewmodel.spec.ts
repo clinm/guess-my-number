@@ -84,6 +84,30 @@ describe("GameViewModel", () => {
         expect(res).toMatchObject(expected);
     });
 
+    test("Example : Guess in two attempts show history", () => {
+        // GIVEN
+        const game = givenNewGame({ max: 20, attempt: 10});
+
+        // WHEN
+        game.guess(5);
+        const res = game.guess(15);
+
+        // THEN
+        const expected: Partial<GameVM> = {
+            state: GameState.WIN,
+            guesses: [
+                {
+                    userGuess: 5,
+                    response: "Trop petit !"
+                },{
+                    userGuess: 15,
+                    response: "Gagné !"
+                }
+            ]
+        }
+        expect(res).toMatchObject(expected);
+    });
+
     function givenNewGame( config: { max: number, attempt: number}): GameViewModel {
         const game = new GameViewModel(new InMemoryRandom(0.75), config);
         game.newGame();
