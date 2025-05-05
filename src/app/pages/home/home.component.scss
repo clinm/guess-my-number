@@ -1,0 +1,26 @@
+.container {
+    max-width: 500px;
+    padding: 1em;
+    margin: 0 auto;
+
+    mat-form-field {
+        width: 100%
+    }
+
+    .mat-mdc-card-content:last-child {
+        padding-bottom: unset;
+    }
+
+    .guess-entry {
+        padding: 0.2em 0.6em;
+
+        &:nth-child(2n) {
+            background: var(--mat-toolbar-container-background-color, var(--mat-sys-surface));
+        }
+
+        .user-proposition {
+            text-align: right;
+        }
+    }
+
+}

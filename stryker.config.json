@@ -1,0 +1,29 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": "This config was generated using 'stryker init'. Please see the guide for more information: https://stryker-mutator.io/docs/stryker-js/guides/angular",
+  "mutate": [
+    "src/**/*.ts",
+    "!src/**/*.spec.ts",
+    "!src/**/*.fixture.ts",
+    "!src/**/*.component.ts",
+    "!src/main.ts",
+    "!src/**/*.provider.*ts",
+    "!src/app/app.config.ts",
+    "!src/app/app.routes.ts",
+    "!src/environments/**"
+  ],
+  "testRunner": "vitest",
+  "vitest": {
+    "configFile": "vitest.config.mjs"
+  },
+  "reporters": [
+    "progress",
+    "clear-text",
+    "html"
+  ],
+  "concurrency": 2,
+  "concurrency_comment": "Recommended to use about half of your available cores when running stryker with angular",
+  "coverageAnalysis": "perTest",
+  "checkers": ["typescript"],
+  "tsconfigFile": "tsconfig.json"
+}

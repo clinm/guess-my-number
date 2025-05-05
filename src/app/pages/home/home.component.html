@@ -1,0 +1,36 @@
+<mat-toolbar>
+  <span>Guess My Number</span>
+</mat-toolbar>
+
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Guess the secret number to win !</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <div class="guess-entry">
+          <p class="user-proposition">10</p>
+          <p>Trop grand</p>
+        </div>
+        <div class="guess-entry">
+          <p class="user-proposition">5</p>
+          <p>Trop petit</p>
+        </div>
+        <div class="guess-entry">
+          <p class="user-proposition">8</p>
+          <p>Trouvé !</p>
+        </div>
+      </div>
+      <div>
+        <form>
+          <mat-form-field>
+            <mat-label>Next guess</mat-label>
+            <input type="number" matInput autofocus>
+            <mat-icon matSuffix>send</mat-icon>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
