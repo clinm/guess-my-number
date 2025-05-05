@@ -17,11 +17,13 @@
         }
       </div>
       <div>
-        <form>
+        <form (ngSubmit)="$event.preventDefault(); submit(); false">
           <mat-form-field>
             <mat-label>Next guess</mat-label>
-            <input type="number" matInput autofocus>
-            <mat-icon matSuffix>send</mat-icon>
+            <input type="number" matInput autofocus name="guess" [(ngModel)]="input">
+            <button matSuffix mat-icon-button type="submit">
+              <mat-icon>send</mat-icon>
+            </button>
           </mat-form-field>
         </form>
       </div>
