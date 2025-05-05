@@ -65,7 +65,7 @@ export class GameViewModel {
     private generateLoseState(userGuess: number) {
         this.guesses.push({
             userGuess: userGuess,
-            response: "Perdu !"
+            response: "Perdu ! La valeur était : " + this.toGuessNumber
         });
 
         return {

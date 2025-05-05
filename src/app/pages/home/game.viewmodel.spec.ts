@@ -17,7 +17,7 @@ describe("GameViewModel", () => {
             guesses: [
                 {
                     userGuess: 5,
-                    response: "Perdu !"
+                    response: "Perdu ! La valeur était : 15"
                 }
             ]
         }
