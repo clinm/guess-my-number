@@ -1,6 +1,13 @@
 import { RandomGenerator } from "../../infra/random/random.infra";
 
 
+export enum GuessState {
+    TOO_LOW,
+    TOO_HIGH,
+    WIN,
+    LOSE
+}
+
 export enum GameState {
     IN_PROGRESS,
     WIN,
@@ -41,53 +48,53 @@ export class GameViewModel {
 
     guess(userGuess: number): GameVM {
         this.remainingAttempt--;
+        
         if (userGuess === this.toGuessNumber) {
-            this.guesses.push({
-                userGuess: userGuess,
-                response: "Gagné !"
-            });
-
-            return {
-                state: GameState.WIN,
-                guesses: this.guesses
-            };    
+            return this.generateWinState(userGuess);    
         }
 
         if (this.remainingAttempt === 0) {
-            this.guesses.push({
-                userGuess: userGuess,
-                response: "Perdu !"
-            });
-
-            return {
-                state: GameState.LOSE,
-                guesses: this.guesses
-            };
+            return this.generateLoseState(userGuess);
         }
 
-        if (this.toGuessNumber < userGuess) {
-            this.guesses.push({
-                userGuess: userGuess,
-                response: "Trop grand !"
-            });
+        const response = this.toGuessNumber < userGuess ? "Trop grand !" : "Trop petit !";
+        return this.generateInProgressState(userGuess, response);
 
-            return {
-                state: GameState.IN_PROGRESS,
-                guesses: this.guesses
-            };
+    }
 
-        } else {
-            this.guesses.push({
-                userGuess: userGuess,
-                response: "Trop petit !"
-            });
-            
-            return {
-                state: GameState.IN_PROGRESS,
-                guesses: this.guesses
-            };
+    private generateLoseState(userGuess: number) {
+        this.guesses.push({
+            userGuess: userGuess,
+            response: "Perdu !"
+        });
 
-        }
+        return {
+            state: GameState.LOSE,
+            guesses: this.guesses
+        };
+    }
 
+    private generateWinState(userGuess: number) {
+        this.guesses.push({
+            userGuess: userGuess,
+            response: "Gagné !"
+        });
+
+        return {
+            state: GameState.WIN,
+            guesses: this.guesses
+        };
+    }
+
+    private generateInProgressState(userGuess: number, response: string) {
+        this.guesses.push({
+            userGuess: userGuess,
+            response: response
+        });
+
+        return {
+            state: GameState.IN_PROGRESS,
+            guesses: this.guesses
+        };
     }
 }
