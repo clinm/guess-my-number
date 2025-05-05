@@ -7,6 +7,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { GameState, GameViewModel, GameVM } from './game.viewmodel';
+import { RandomGenerator } from '../../infra/random/random.infra';
 
 @Component({
     selector: 'home-root',
@@ -22,8 +23,8 @@ export class HomeComponent implements OnInit {
 
   input: String = "";
 
-  constructor() {
-    this.gameViewModel = new GameViewModel();
+  constructor(private readonly randomGenerator: RandomGenerator) {
+    this.gameViewModel = new GameViewModel(randomGenerator, { max: 20, attempt: 5});
   }
 
   ngOnInit(): void {

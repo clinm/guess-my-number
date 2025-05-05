@@ -1,3 +1,4 @@
+import { RandomGenerator } from "../../infra/random/random.infra";
 
 
 export enum GameState {
@@ -18,38 +19,70 @@ export type GameVM = {
 
 export class GameViewModel {
 
-    constructor() { }
+    private toGuessNumber!: number;
+
+    private remainingAttempt!: number;
+
+    constructor(private readonly randomGenerator: RandomGenerator,
+                private readonly config: { max: number, attempt: number }) { }
 
     newGame(): GameVM {
+        this.toGuessNumber = Math.floor(this.randomGenerator.get() * this.config.max);
+        this.remainingAttempt = this.config.attempt;
         return {
             state: GameState.IN_PROGRESS,
-            guesses: [
-                {
-                    userGuess: 10,
-                    response: "Trop grand"
-                }, {
-                    userGuess: 5,
-                    response: "Trop petit"
-                }
-            ]
+            guesses: []
         };
     }
 
     guess(userGuess: number): GameVM {
-        return {
-            state: GameState.WIN,
-            guesses: [
-                {
-                    userGuess: 10,
-                    response: "Trop grand"
-                }, {
-                    userGuess: 5,
-                    response: "Trop petit"
-                }, {
-                    userGuess: userGuess,
-                    response: "Trouvé !"
-                }
-            ]
-        };
+        this.remainingAttempt--;
+        if (userGuess === this.toGuessNumber) {
+            return {
+                state: GameState.WIN,
+                guesses: [
+                    {
+                        userGuess: userGuess,
+                        response: "Gagné !"
+                    }
+                ]
+            };    
+        }
+
+        if (this.remainingAttempt === 0) {
+            return {
+                state: GameState.LOSE,
+                guesses: [
+                    {
+                        userGuess: userGuess,
+                        response: "Perdu !"
+                    }
+                ]
+            };
+        }
+
+        if (this.toGuessNumber < userGuess) {
+            return {
+                state: GameState.IN_PROGRESS,
+                guesses: [
+                    {
+                        userGuess: userGuess,
+                        response: "Trop grand !"
+                    }
+                ]
+            };
+        } else {
+            return {
+                state: GameState.IN_PROGRESS,
+                guesses: [
+                    {
+                        userGuess: userGuess,
+                        response: "Trop petit !"
+                    }
+                ]
+            };
+
+        }
+
     }
 }
