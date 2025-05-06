@@ -129,6 +129,31 @@ describe("GameViewModel", () => {
         expect(res).toMatchObject(expected);
     });
 
+    test("Example : Duplicate guesss should be displayed but not counted", () => {
+        // GIVEN
+        const game = givenNewGame({ max: 20, attempt: 2});
+
+        // WHEN
+        game.guess(5);
+        const res = game.guess(5);
+
+        // THEN
+        const expected: Partial<GameVM> = {
+            state: GameState.IN_PROGRESS,
+            isGameOver: false,
+            guesses: [
+                {
+                    userGuess: 5,
+                    response: "Trop petit !"
+                }, {
+                    userGuess: 5,
+                    response: "Proposition déjà faite !"
+                }
+            ]
+        }
+        expect(res).toMatchObject(expected);
+    });
+
     function givenNewGame( config: { max: number, attempt: number}): GameViewModel {
         const game = new GameViewModel(new InMemoryRandom(0.75), config);
         game.newGame();

@@ -49,6 +49,12 @@ export class GameViewModel {
     }
 
     guess(userGuess: number): GameVM {
+
+        const wasProposedEarlier = this.guesses.some(g => g.userGuess === userGuess);
+        if (wasProposedEarlier) {
+            return this.generateInProgressState(userGuess, "Proposition déjà faite !");
+        }
+
         this.remainingAttempt--;
         
         if (userGuess === this.toGuessNumber) {
