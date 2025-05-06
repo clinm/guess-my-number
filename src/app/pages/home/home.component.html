@@ -20,8 +20,8 @@
         <form (ngSubmit)="$event.preventDefault(); submit(); false">
           <mat-form-field>
             <mat-label>Next guess</mat-label>
-            <input type="number" matInput autofocus name="guess" [(ngModel)]="input">
-            <button matSuffix mat-icon-button type="submit">
+            <input type="number" matInput autofocus name="guess" aria-label="your guess" [(ngModel)]="input" [disabled]="game.isGameOver">
+            <button matSuffix mat-icon-button type="submit" aria-label="send" [disabled]="game.isGameOver">
               <mat-icon>send</mat-icon>
             </button>
           </mat-form-field>
