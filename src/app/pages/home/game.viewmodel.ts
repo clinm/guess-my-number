@@ -1,26 +1,12 @@
 import { RandomGenerator } from "../../infra/random/random.infra";
 
 
-export enum GuessState {
-    TOO_LOW,
-    TOO_HIGH,
-    WIN,
-    LOSE
-}
-
-export enum GameState {
-    IN_PROGRESS,
-    WIN,
-    LOSE
-}
-
 export type Guess = {
     userGuess: number;
     response: String;
 }
 
 export type GameVM = {
-    state: GameState,
     isGameOver: boolean,
     remainingAttempt: number,
     guesses: Guess[]
@@ -43,7 +29,6 @@ export class GameViewModel {
         this.guesses = [];
 
         return {
-            state: GameState.IN_PROGRESS,
             isGameOver: false,
             remainingAttempt: this.remainingAttempt,
             guesses: this.guesses
@@ -79,7 +64,6 @@ export class GameViewModel {
         });
 
         return {
-            state: GameState.LOSE,
             isGameOver: true,
             remainingAttempt: this.remainingAttempt,
             guesses: this.guesses
@@ -93,7 +77,6 @@ export class GameViewModel {
         });
 
         return {
-            state: GameState.WIN,
             isGameOver: true,
             remainingAttempt: this.remainingAttempt,
             guesses: this.guesses
@@ -107,7 +90,6 @@ export class GameViewModel {
         });
 
         return {
-            state: GameState.IN_PROGRESS,
             isGameOver: false,
             remainingAttempt: this.remainingAttempt,
             guesses: this.guesses

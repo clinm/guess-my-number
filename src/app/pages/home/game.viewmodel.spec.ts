@@ -13,7 +13,6 @@ describe("GameViewModel", () => {
 
         // THEN
         const expected: Partial<GameVM> = {
-            state: GameState.IN_PROGRESS,
             isGameOver: false,
             remainingAttempt: 1,
             guesses: []
@@ -30,7 +29,6 @@ describe("GameViewModel", () => {
 
         // THEN
         const expected: Partial<GameVM> = {
-            state: GameState.LOSE,
             isGameOver: true,
             guesses: [
                 {
@@ -51,7 +49,6 @@ describe("GameViewModel", () => {
 
         // THEN
         const expected: Partial<GameVM> = {
-            state: GameState.WIN,
             isGameOver: true,
             guesses: [
                 {
@@ -72,7 +69,6 @@ describe("GameViewModel", () => {
 
         // THEN
         const expected: Partial<GameVM> = {
-            state: GameState.IN_PROGRESS,
             isGameOver: false,
             remainingAttempt: 9,
             guesses: [
@@ -94,7 +90,6 @@ describe("GameViewModel", () => {
 
         // THEN
         const expected: Partial<GameVM> = {
-            state: GameState.IN_PROGRESS,
             isGameOver: false,
             guesses: [
                 {
@@ -116,7 +111,6 @@ describe("GameViewModel", () => {
 
         // THEN
         const expected: Partial<GameVM> = {
-            state: GameState.WIN,
             isGameOver: true,
             guesses: [
                 {
@@ -141,7 +135,6 @@ describe("GameViewModel", () => {
 
         // THEN
         const expected: Partial<GameVM> = {
-            state: GameState.IN_PROGRESS,
             isGameOver: false,
             remainingAttempt: 1,
             guesses: [
