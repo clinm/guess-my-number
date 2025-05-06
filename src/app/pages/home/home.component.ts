@@ -6,8 +6,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { GameState, GameViewModel, GameVM } from './game.viewmodel';
 import { RandomGenerator } from '../../infra/random/random.infra';
+import { GameViewModel, GameVM } from './game.viewmodel';
 
 @Component({
     selector: 'home-root',
@@ -28,12 +28,16 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.game = this.gameViewModel.newGame();
+    this.restartGame();
   }
 
   submit(): void {
     this.game = this.gameViewModel.guess(Number(this.input));
     this.input = "";
+  }
+
+  restartGame(): void {
+    this.game = this.gameViewModel.newGame();
   }
 
 }

@@ -17,6 +17,8 @@ describe("Home", () => {
 
   let validateInput: HTMLButtonElement;
 
+  let restartButton: HTMLButtonElement;
+
   it("Example : Submit 2 guesses and win", fakeAsync(async () => {
     // GIVEN
     givenConfiguration();
@@ -29,7 +31,22 @@ describe("Home", () => {
     // THEN
     expectDisplayOfGuesses(2);
     expectInputToBeEmpty();
-    expectInputToBeDisabled();
+    expectInputToBeDisabled(true);
+  }));
+
+  it("Example : Restart game after game over", fakeAsync(async () => {
+    // GIVEN
+    givenConfiguration();
+
+    // WHEN
+    whenComponentInit();
+    whenUserSubmitGuess(3);
+    whenUserHitsRestart();
+
+    // THEN
+    expectInputToBeDisabled(false);
+    expectDisplayOfGuesses(0);
+    
   }));
   
   
@@ -45,9 +62,9 @@ describe("Home", () => {
     expect(userInput.value).toBe('');
   }
 
-  function expectInputToBeDisabled() {
-    expect(validateInput.disabled).toBe(true);
-    expect(userInput.disabled).toBe(true);
+  function expectInputToBeDisabled(expected: boolean) {
+    expect(validateInput.disabled).toBe(expected);
+    expect(userInput.disabled).toBe(expected);
   }
 
   function whenComponentInit() {
@@ -80,10 +97,17 @@ describe("Home", () => {
     userInput = fixture.debugElement.query(By.css('[aria-label="your guess"]')).nativeElement as HTMLInputElement;
     validateInput = fixture.debugElement.query(By.css('[aria-label="send"]')).nativeElement as HTMLButtonElement;
   }
-
+  
   function expectDisplayOfGuesses(guessCount: number) {
     const guessEntries = fixture.debugElement.queryAll(By.css('.guess-entry'));
     expect(guessEntries.length).toBe(guessCount);
   }
-});
+  
+  function whenUserHitsRestart() {
+    restartButton = fixture.debugElement.query(By.css('[aria-label="restart"]')).nativeElement as HTMLButtonElement;
+    restartButton.click();
+    waitForLoading();
+  }
+
+});  
 
