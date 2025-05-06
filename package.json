@@ -8,6 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "vitest --config ./vitest.config.mjs",
+    "test:ci": "vitest --config ./vitest.config.ci.mjs",
     "test:e2e": "vitest --config ./vitest.config.e2e.mjs"
   },
   "private": true,
