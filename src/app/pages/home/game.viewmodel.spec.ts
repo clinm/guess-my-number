@@ -1,6 +1,6 @@
-import { expect, test } from 'vitest'
-import { GameState, GameViewModel, GameVM } from "./game.viewmodel";
+import { expect, test } from 'vitest';
 import { InMemoryRandom } from '../../infra/random/in-memory-random.infra';
+import { GameViewModel, GameVM } from "./game.viewmodel";
 
 describe("GameViewModel", () => {
 

@@ -20,6 +20,8 @@ export class GameViewModel {
 
     private guesses!: Guess[];
 
+    private isGameOver!: boolean;
+
     constructor(private readonly randomGenerator: RandomGenerator,
                 private readonly config: { max: number, attempt: number }) { }
 
@@ -27,19 +29,16 @@ export class GameViewModel {
         this.toGuessNumber = Math.floor(this.randomGenerator.get() * this.config.max);
         this.remainingAttempt = this.config.attempt;
         this.guesses = [];
+        this.isGameOver = false;
 
-        return {
-            isGameOver: false,
-            remainingAttempt: this.remainingAttempt,
-            guesses: this.guesses
-        };
+        return this.generateGameVM();
     }
 
     guess(userGuess: number): GameVM {
 
         const wasProposedEarlier = this.guesses.some(g => g.userGuess === userGuess);
         if (wasProposedEarlier) {
-            return this.generateInProgressState(userGuess, "Proposition déjà faite !");
+            return this.generateProgressWithNewGuess(userGuess, "Proposition déjà faite !");
         }
 
         this.remainingAttempt--;
@@ -53,44 +52,33 @@ export class GameViewModel {
         }
 
         const response = this.toGuessNumber < userGuess ? "Trop grand !" : "Trop petit !";
-        return this.generateInProgressState(userGuess, response);
+        return this.generateProgressWithNewGuess(userGuess, response);
 
     }
 
     private generateLoseState(userGuess: number): GameVM {
-        this.guesses.push({
-            userGuess: userGuess,
-            response: "Perdu ! La valeur était : " + this.toGuessNumber
-        });
-
-        return {
-            isGameOver: true,
-            remainingAttempt: this.remainingAttempt,
-            guesses: this.guesses
-        };
+        this.isGameOver = true;
+        const lostMessage = "Perdu ! La valeur était : " + this.toGuessNumber;
+        return this.generateProgressWithNewGuess(userGuess, lostMessage);
     }
 
     private generateWinState(userGuess: number): GameVM {
-        this.guesses.push({
-            userGuess: userGuess,
-            response: "Gagné !"
-        });
-
-        return {
-            isGameOver: true,
-            remainingAttempt: this.remainingAttempt,
-            guesses: this.guesses
-        };
+        this.isGameOver = true;
+        return this.generateProgressWithNewGuess(userGuess, "Gagné !");
     }
 
-    private generateInProgressState(userGuess: number, response: string): GameVM {
+    private generateProgressWithNewGuess(userGuess: number, response: string): GameVM {
         this.guesses.push({
             userGuess: userGuess,
             response: response
         });
 
+        return this.generateGameVM();
+    }
+
+    private generateGameVM(): GameVM {
         return {
-            isGameOver: false,
+            isGameOver: this.isGameOver,
             remainingAttempt: this.remainingAttempt,
             guesses: this.guesses
         };
