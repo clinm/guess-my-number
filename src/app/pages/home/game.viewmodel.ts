@@ -22,6 +22,7 @@ export type Guess = {
 export type GameVM = {
     state: GameState,
     isGameOver: boolean,
+    remainingAttempt: number,
     guesses: Guess[]
 }
 
@@ -44,6 +45,7 @@ export class GameViewModel {
         return {
             state: GameState.IN_PROGRESS,
             isGameOver: false,
+            remainingAttempt: this.remainingAttempt,
             guesses: this.guesses
         };
     }
@@ -79,6 +81,7 @@ export class GameViewModel {
         return {
             state: GameState.LOSE,
             isGameOver: true,
+            remainingAttempt: this.remainingAttempt,
             guesses: this.guesses
         };
     }
@@ -92,6 +95,7 @@ export class GameViewModel {
         return {
             state: GameState.WIN,
             isGameOver: true,
+            remainingAttempt: this.remainingAttempt,
             guesses: this.guesses
         };
     }
@@ -105,6 +109,7 @@ export class GameViewModel {
         return {
             state: GameState.IN_PROGRESS,
             isGameOver: false,
+            remainingAttempt: this.remainingAttempt,
             guesses: this.guesses
         };
     }

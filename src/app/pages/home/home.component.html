@@ -6,6 +6,7 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>Guess the secret number to win !</mat-card-title>
+      <mat-card-subtitle>You have {{ game.remainingAttempt }} guesse(s) left</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <div>
@@ -32,7 +33,7 @@
           <mat-form-field>
             <mat-label>Next guess</mat-label>
             <input type="number" matInput autofocus name="guess" aria-label="your guess" [(ngModel)]="input" [disabled]="game.isGameOver">
-            <button matSuffix mat-icon-button type="submit" aria-label="send" [disabled]="game.isGameOver">
+            <button matSuffix mat-icon-button color="primary" type="submit" aria-label="send" [disabled]="game.isGameOver">
               <mat-icon>send</mat-icon>
             </button>
           </mat-form-field>

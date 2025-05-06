@@ -15,6 +15,7 @@ describe("GameViewModel", () => {
         const expected: Partial<GameVM> = {
             state: GameState.IN_PROGRESS,
             isGameOver: false,
+            remainingAttempt: 1,
             guesses: []
         }
         expect(res).toMatchObject(expected);
@@ -73,6 +74,7 @@ describe("GameViewModel", () => {
         const expected: Partial<GameVM> = {
             state: GameState.IN_PROGRESS,
             isGameOver: false,
+            remainingAttempt: 9,
             guesses: [
                 {
                     userGuess: 20,
@@ -141,6 +143,7 @@ describe("GameViewModel", () => {
         const expected: Partial<GameVM> = {
             state: GameState.IN_PROGRESS,
             isGameOver: false,
+            remainingAttempt: 1,
             guesses: [
                 {
                     userGuess: 5,
