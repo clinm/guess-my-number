@@ -38,7 +38,7 @@ export class GameViewModel {
 
         const wasProposedEarlier = this.guesses.some(g => g.userGuess === userGuess);
         if (wasProposedEarlier) {
-            return this.generateProgressWithNewGuess(userGuess, "Proposition déjà faite !");
+            return this.generateProgressWithNewGuess(userGuess, "Proposition done before !");
         }
 
         this.remainingAttempt--;
@@ -51,20 +51,20 @@ export class GameViewModel {
             return this.generateLoseState(userGuess);
         }
 
-        const response = this.toGuessNumber < userGuess ? "Trop grand !" : "Trop petit !";
+        const response = this.toGuessNumber < userGuess ? "Too high !" : "Too low !";
         return this.generateProgressWithNewGuess(userGuess, response);
 
     }
 
     private generateLoseState(userGuess: number): GameVM {
         this.isGameOver = true;
-        const lostMessage = "Perdu ! La valeur était : " + this.toGuessNumber;
+        const lostMessage = "Lost ! The secret number was : " + this.toGuessNumber;
         return this.generateProgressWithNewGuess(userGuess, lostMessage);
     }
 
     private generateWinState(userGuess: number): GameVM {
         this.isGameOver = true;
-        return this.generateProgressWithNewGuess(userGuess, "Gagné !");
+        return this.generateProgressWithNewGuess(userGuess, "Won !");
     }
 
     private generateProgressWithNewGuess(userGuess: number, response: string): GameVM {

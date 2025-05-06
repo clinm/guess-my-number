@@ -33,7 +33,7 @@ describe("GameViewModel", () => {
             guesses: [
                 {
                     userGuess: 5,
-                    response: "Perdu ! La valeur était : 15"
+                    response: "Lost ! The secret number was : 15"
                 }
             ]
         }
@@ -53,7 +53,7 @@ describe("GameViewModel", () => {
             guesses: [
                 {
                     userGuess: 15,
-                    response: "Gagné !"
+                    response: "Won !"
                 }
             ]
         }
@@ -74,7 +74,7 @@ describe("GameViewModel", () => {
             guesses: [
                 {
                     userGuess: 20,
-                    response: "Trop grand !"
+                    response: "Too high !"
                 }
             ]
         }
@@ -94,7 +94,7 @@ describe("GameViewModel", () => {
             guesses: [
                 {
                     userGuess: 5,
-                    response: "Trop petit !"
+                    response: "Too low !"
                 }
             ]
         }
@@ -115,10 +115,10 @@ describe("GameViewModel", () => {
             guesses: [
                 {
                     userGuess: 5,
-                    response: "Trop petit !"
+                    response: "Too low !"
                 },{
                     userGuess: 15,
-                    response: "Gagné !"
+                    response: "Won !"
                 }
             ]
         }
@@ -140,10 +140,10 @@ describe("GameViewModel", () => {
             guesses: [
                 {
                     userGuess: 5,
-                    response: "Trop petit !"
+                    response: "Too low !"
                 }, {
                     userGuess: 5,
-                    response: "Proposition déjà faite !"
+                    response: "Proposition done before !"
                 }
             ]
         }
