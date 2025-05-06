@@ -4,6 +4,22 @@ import { InMemoryRandom } from '../../infra/random/in-memory-random.infra';
 
 describe("GameViewModel", () => {
 
+    test("Example : Beginning of game should show empty history", () => {
+        // GIVEN
+        const game = givenNewGame({ max: 20, attempt: 1});
+
+        // WHEN
+        const res = game.newGame();
+
+        // THEN
+        const expected: Partial<GameVM> = {
+            state: GameState.IN_PROGRESS,
+            isGameOver: false,
+            guesses: []
+        }
+        expect(res).toMatchObject(expected);
+    });
+
     test("Example : Lose on last guess", () => {
         // GIVEN
         const game = givenNewGame({ max: 20, attempt: 1});
