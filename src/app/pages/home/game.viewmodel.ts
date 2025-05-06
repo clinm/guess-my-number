@@ -20,7 +20,8 @@ export type Guess = {
 }
 
 export type GameVM = {
-    state: GameState
+    state: GameState,
+    isGameOver: boolean,
     guesses: Guess[]
 }
 
@@ -42,6 +43,7 @@ export class GameViewModel {
 
         return {
             state: GameState.IN_PROGRESS,
+            isGameOver: false,
             guesses: this.guesses
         };
     }
@@ -62,7 +64,7 @@ export class GameViewModel {
 
     }
 
-    private generateLoseState(userGuess: number) {
+    private generateLoseState(userGuess: number): GameVM {
         this.guesses.push({
             userGuess: userGuess,
             response: "Perdu ! La valeur était : " + this.toGuessNumber
@@ -70,11 +72,12 @@ export class GameViewModel {
 
         return {
             state: GameState.LOSE,
+            isGameOver: true,
             guesses: this.guesses
         };
     }
 
-    private generateWinState(userGuess: number) {
+    private generateWinState(userGuess: number): GameVM {
         this.guesses.push({
             userGuess: userGuess,
             response: "Gagné !"
@@ -82,11 +85,12 @@ export class GameViewModel {
 
         return {
             state: GameState.WIN,
+            isGameOver: true,
             guesses: this.guesses
         };
     }
 
-    private generateInProgressState(userGuess: number, response: string) {
+    private generateInProgressState(userGuess: number, response: string): GameVM {
         this.guesses.push({
             userGuess: userGuess,
             response: response
@@ -94,6 +98,7 @@ export class GameViewModel {
 
         return {
             state: GameState.IN_PROGRESS,
+            isGameOver: false,
             guesses: this.guesses
         };
     }

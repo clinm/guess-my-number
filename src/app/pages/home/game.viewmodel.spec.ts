@@ -14,6 +14,7 @@ describe("GameViewModel", () => {
         // THEN
         const expected: Partial<GameVM> = {
             state: GameState.LOSE,
+            isGameOver: true,
             guesses: [
                 {
                     userGuess: 5,
@@ -34,6 +35,7 @@ describe("GameViewModel", () => {
         // THEN
         const expected: Partial<GameVM> = {
             state: GameState.WIN,
+            isGameOver: true,
             guesses: [
                 {
                     userGuess: 15,
@@ -54,6 +56,7 @@ describe("GameViewModel", () => {
         // THEN
         const expected: Partial<GameVM> = {
             state: GameState.IN_PROGRESS,
+            isGameOver: false,
             guesses: [
                 {
                     userGuess: 20,
@@ -74,6 +77,7 @@ describe("GameViewModel", () => {
         // THEN
         const expected: Partial<GameVM> = {
             state: GameState.IN_PROGRESS,
+            isGameOver: false,
             guesses: [
                 {
                     userGuess: 5,
@@ -95,6 +99,7 @@ describe("GameViewModel", () => {
         // THEN
         const expected: Partial<GameVM> = {
             state: GameState.WIN,
+            isGameOver: true,
             guesses: [
                 {
                     userGuess: 5,
