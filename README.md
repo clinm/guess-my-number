@@ -1,5 +1,6 @@
 # GuessMyNumber
 
+This "Guess my number" project [avaibable here](https://guess-my-number-xi-wine.vercel.app/) aims to pratice clean architecture.
 
 
 ## Development server
