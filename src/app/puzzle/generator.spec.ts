@@ -43,11 +43,32 @@ describe("Generator", () => {
 
     });
 
+    it("Example : should place 'WORD' as hozizontal and 'RUN' as vertical", () => {
+        // GIVEN
+        const generator = new Generator();
+
+        // WHEN
+        const expected: Grid = {
+            placedWords: [
+                { word: "WORD", position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL },
+                { word: "RUN", position: { x: 2, y: 0 }, direction: Direction.VERTICAL }
+            ]
+        };
+
+        const res = generator.generate({
+            words: ["WORD", "RUN"],
+        });
+
+        // THEN
+        expect(res).toEqual(expected);
+    });
+
 });
 
 /**
  * x un seul mot hozizontal
  * x un mot horizontal et un mot vertical qui se croise sur la première lettre
- * - un mot horizontal et un mot vertical qui se croise sur la troisième lettre
+ * x un mot horizontal et un mot vertical qui se croise sur la troisième lettre
  * - un mot horizontal et deux mots verticaux qui se croisent sur la première et troisième lettre   
+ * - WORD hozirontal, RUN vertical et NIGHT horizontal
  */
