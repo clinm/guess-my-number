@@ -59,9 +59,14 @@ export class Generator {
         for (var [candidateLetterIndex, letter] of wordToPlace.split("").entries()) { 
             
             if (this.dictionnary.has(letter)) {
-                const {placedWord, letterIndex} = this.dictionnary.get(letter)![0]; 
+                const matchingPlacedWords = this.dictionnary.get(letter)!;
+                const {placedWord, letterIndex} = matchingPlacedWords.pop()!;
+                if (matchingPlacedWords.length === 0) {
+                    this.dictionnary.delete(letter);
+                }
+                
                 const placedWordWithComputedPosition = this.computePlacedWord(wordToPlace, placedWord, letterIndex, candidateLetterIndex);
-                this.addWordToGrid(placedWordWithComputedPosition);
+                this.addWordToGrid(placedWordWithComputedPosition, candidateLetterIndex);
                 return true;
 
             }
@@ -69,13 +74,17 @@ export class Generator {
         return false;
     }
 
-    private addWordToGrid(placedWord: PlacedWord) {
+    private addWordToGrid(placedWord: PlacedWord, linkedLetterIndex: number = -1) {
         this.placedWords.push(placedWord);
-        this.updateDictionnary(placedWord);
+        this.updateDictionnary(placedWord, linkedLetterIndex);
     }
 
-    private updateDictionnary(placedWord: PlacedWord) {
+    private updateDictionnary(placedWord: PlacedWord, linkedLetterIndex: number) {
         for (var [letterIndex, letter] of placedWord.word.split("").entries()) {
+            if (letterIndex === linkedLetterIndex) {
+                continue;
+            }
+            
             if (!this.dictionnary.has(letter)) {
                 this.dictionnary.set(letter, []);
             }

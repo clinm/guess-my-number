@@ -145,6 +145,27 @@ describe("Generator", () => {
         expect(res).toEqual(expected);
     });
 
+    it("Example : should place 'WORD' as horizontal, 'WEEK' vertical and not 'WHAT' because 'W' is already used", () => {
+        // GIVEN
+        const generator = new Generator();
+
+        // WHEN
+        const expected: Grid = {
+            placedWords: [
+                { word: "WORD", position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL },
+                { word: "WEEK", position: { x: 0, y: 0 }, direction: Direction.VERTICAL }
+            ],
+            unplacedWords: ["WHAT"]
+        };
+
+        const res = generator.generate({
+            words: ["WORD", "WEEK", "WHAT"],
+        });
+
+        // THEN
+        expect(res).toEqual(expected);
+    });
+
 });
 
 /**
@@ -154,10 +175,12 @@ describe("Generator", () => {
  * x un mot horizontal et deux mots verticaux qui se croisent sur la première et troisième lettre   
  * x WORD hozirontal, NIGHT not placed
  * x WORD hozirontal, RUN vertical et NIGHT horizontal
+ * X WORD hozirontal, LOL vertical
+ * X peut pas utiliser la même lettre plusieurs fois
  * 
  * - si ajout d'un mot, alors tout ceux qu'on n'a pas placé peuvent être ressayés
- * - WORD hozirontal, LOL vertical
- * - WORD, WEEK, OAT cannot be placed
+ * -> WORD, WEEK, OAT cannot be placed
+ * - tester plusieurs combinaisons si on ne peut pas tout placer sur la grille (récursif)
  * WORD
  *   U
  *   NIGHT
