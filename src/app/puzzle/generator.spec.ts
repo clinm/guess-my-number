@@ -125,6 +125,26 @@ describe("Generator", () => {
         expect(res).toEqual(expected);
     });
 
+    it("Example : should place 'WORD' as horizontal, 'LOL' vertical", () => {
+        // GIVEN
+        const generator = new Generator();
+
+        // WHEN
+        const expected: Grid = {
+            placedWords: [
+                { word: "WORD", position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL },
+                { word: "LOL", position: { x: 1, y: -1 }, direction: Direction.VERTICAL }
+            ]
+        };
+
+        const res = generator.generate({
+            words: ["WORD", "LOL"],
+        });
+
+        // THEN
+        expect(res).toEqual(expected);
+    });
+
 });
 
 /**
@@ -137,7 +157,21 @@ describe("Generator", () => {
  * 
  * - si ajout d'un mot, alors tout ceux qu'on n'a pas placé peuvent être ressayés
  * - WORD hozirontal, LOL vertical
+ * - WORD, WEEK, OAT cannot be placed
  * WORD
  *   U
  *   NIGHT
+ * 
+ * WORD
+ * E U
+ * E N
+ * K
+ * 
+ *  L 
+ * WORD
+ *  L
+ * 
+ *  {
+ *      "a": [ { placedWord, index} ]
+ *  }
  */

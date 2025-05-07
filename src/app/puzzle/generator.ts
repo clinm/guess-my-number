@@ -56,26 +56,30 @@ export class Generator {
 
     private placeWordOnGrid(wordToPlace: string) {
         for (let placedWord of this.placedWords) {
-            const index = placedWord.word.indexOf(wordToPlace[0]);
-            if (index !== -1) {
-                const placedWordWithComputedPosition = this.computePlacedWord(wordToPlace, placedWord, index);
-                this.placedWords.push(placedWordWithComputedPosition);
-                return true;
+            for (var [candidateLetterIndex, letter] of wordToPlace.split("").entries()) { 
+                const index = placedWord.word.indexOf(letter);
+                if (index !== -1) {
+                    const placedWordWithComputedPosition = this.computePlacedWord(wordToPlace, placedWord, index, candidateLetterIndex);
+                    this.placedWords.push(placedWordWithComputedPosition);
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    private computePlacedWord(wordToPlace: string, placedWord: PlacedWord, index: number): PlacedWord {
+    private computePlacedWord(wordToPlace: string, placedWord: PlacedWord, index: number, shiffedStart: number): PlacedWord {
         const position: Position = { ...placedWord.position }; 
         let direction: Direction;
         
         if (placedWord.direction == Direction.VERTICAL) {
             direction = Direction.HORIZONTAL;
             position.y += index;
+            position.x -= shiffedStart;
         } else {
             direction = Direction.VERTICAL;
             position.x += index;
+            position.y -= shiffedStart;
         }
         return { word: wordToPlace, position: position, direction: direction };
     }
