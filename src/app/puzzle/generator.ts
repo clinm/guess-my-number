@@ -28,16 +28,21 @@ export class Generator {
 
     private dictionnary: Map<string, { placedWord: PlacedWord, letterIndex: number}[]> = new Map();
 
-    generate(input: GridParams ): Grid {
+    public generate(input: GridParams ): Grid {
         const firstWord = { word: input.words[0], position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL };
         this.addWordToGrid(firstWord);
 
-        const unplacedWords = [];
+        let unplacedWords = [];
 
-        for (let i = 1; i < input.words.length; i++) {
-            let wordWasPlaced = this.placeWordOnGrid(input.words[i]);
-            if (!wordWasPlaced) {
-                unplacedWords.push(input.words[i]);
+        const wordsToPlaced = input.words.slice(1);
+        while (wordsToPlaced.length > 0) {
+            const w = wordsToPlaced.shift()!;
+            let wordWasPlaced = this.placeWordOnGrid(w);
+            if (wordWasPlaced) {
+                wordsToPlaced.push(...unplacedWords);
+                unplacedWords = [];
+            } else {
+                unplacedWords.push(w);
             }
         }
 

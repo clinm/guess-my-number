@@ -229,6 +229,27 @@ describe("Generator", () => {
         expect(res).toEqual(expected);
     });
 
+    it("Example : should place 'WORD' as horizontal, 'RUN' vertical and 'NIGHT' horizontal", () => {
+        // GIVEN
+        const generator = new Generator();
+
+        // WHEN
+        const expected: Grid = {
+            placedWords: [
+                { word: "WORD", position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL },
+                { word: "RUN", position: { x: 2, y: 0 }, direction: Direction.VERTICAL },
+                { word: "NIGHT", position: { x: 2, y: 2 }, direction: Direction.HORIZONTAL }
+            ]
+        };
+
+        const res = generator.generate({
+            words: ["WORD", "NIGHT", "RUN"],
+        });
+
+        // THEN
+        expect(res).toEqual(expected);
+    });
+
 });
 
 /**
