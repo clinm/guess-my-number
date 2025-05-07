@@ -208,6 +208,27 @@ describe("Generator", () => {
         expect(res).toEqual(expected);
     });
 
+    it("Example : should place 'WEEK' as horizontal, 'WORD' vertical and 'TOTOTO' on seconds 'O'", () => {
+        // GIVEN
+        const generator = new Generator();
+
+        // WHEN
+        const expected: Grid = {
+            placedWords: [
+                { word: "WEEK", position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL },
+                { word: "WORD", position: { x: 0, y: 0 }, direction: Direction.VERTICAL },
+                { word: "TOTOTO", position: { x: -5, y: 1 }, direction: Direction.HORIZONTAL }
+            ]
+        };
+
+        const res = generator.generate({
+            words: ["WEEK", "WORD", "TOTOTO"],
+        });
+
+        // THEN
+        expect(res).toEqual(expected);
+    });
+
 });
 
 /**
@@ -220,7 +241,7 @@ describe("Generator", () => {
  * X WORD hozirontal, LOL vertical
  * X peut pas utiliser la même lettre plusieurs fois
  * x WORD, WEEK, OAT cannot be placed
- * WORD, WEEK, TOTO should place TOTO with second 'O' as vertical
+ * X WORD, WEEK, TOTO should place TOTO with second 'O' as vertical
  * 
  * # plusieurs tentatives de grille
  * - si ajout d'un mot, alors tout ceux qu'on n'a pas placé peuvent être ressayés
@@ -231,6 +252,11 @@ describe("Generator", () => {
  * 
  * # tester plusieurs matchs
  * 
+ * 
+ *     WEEK
+ *  TOTO
+ *     R
+ *     D
  * 
  * WORD
  *   U

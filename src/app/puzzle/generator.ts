@@ -80,21 +80,44 @@ export class Generator {
     private canAddOnGrid(candidate: PlacedWord): boolean {
         return !this.placedWords
                     .filter(w => w.direction === candidate.direction)
-                    .filter(w => Math.abs(w.position.x - candidate.position.x) === 1)
-                    .some(w => {
-                        const beginW = w.position.y;
-                        const endW = w.position.y + w.word.length - 1;
-
-                        const beginC = candidate.position.y;
-                        const endC = candidate.position.y + candidate.word.length - 1;
-
-
-                        return (beginW > beginC && beginW < endC)
-                        || (endW > beginC && endW < endC)
-                        || (beginC > beginW && beginC < endW)
-                        || (endC > beginW && endC < endW);
+                    .filter(w => {
+                        if (candidate.direction === Direction.HORIZONTAL) {
+                            return Math.abs(w.position.y - candidate.position.y) === 1;
+                        }
                         
-                    });
+                        return Math.abs(w.position.x - candidate.position.x) === 1;
+                    })
+                    .some(w => this.isTooCloseToTheWord(w, candidate));
+    }
+
+    private isTooCloseToTheWord(w: PlacedWord, candidate: PlacedWord): boolean {
+        if (candidate.direction === Direction.HORIZONTAL) {
+            const beginW = w.position.x;
+            const endW = w.position.x + w.word.length - 1;
+
+            const beginC = candidate.position.x;
+            const endC = candidate.position.x + candidate.word.length - 1;
+
+
+            return this.hasIntersection(beginW, beginC, endC, endW);
+
+        }
+
+        const beginW = w.position.y;
+        const endW = w.position.y + w.word.length - 1;
+
+        const beginC = candidate.position.y;
+        const endC = candidate.position.y + candidate.word.length - 1;
+
+
+        return this.hasIntersection(beginW, beginC, endC, endW);
+    }
+
+    private hasIntersection(beginW: number, beginC: number, endC: number, endW: number): boolean {
+        return (beginW > beginC && beginW < endC)
+            || (endW > beginC && endW < endC)
+            || (beginC > beginW && beginC < endW)
+            || (endC > beginW && endC < endW);
     }
 
     private addWordToGrid(placedWord: PlacedWord, linkedLetterIndex: number = -1) {
