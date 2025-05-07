@@ -104,6 +104,27 @@ describe("Generator", () => {
         expect(res).toEqual(expected);
     });
 
+    it("Example : should place 'WORD' as horizontal, 'RUN' vertical and 'NIGHT' horizontal", () => {
+        // GIVEN
+        const generator = new Generator();
+
+        // WHEN
+        const expected: Grid = {
+            placedWords: [
+                { word: "WORD", position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL },
+                { word: "RUN", position: { x: 2, y: 0 }, direction: Direction.VERTICAL },
+                { word: "NIGHT", position: { x: 2, y: 2 }, direction: Direction.HORIZONTAL }
+            ]
+        };
+
+        const res = generator.generate({
+            words: ["WORD", "RUN", "NIGHT"],
+        });
+
+        // THEN
+        expect(res).toEqual(expected);
+    });
+
 });
 
 /**
@@ -112,8 +133,11 @@ describe("Generator", () => {
  * x un mot horizontal et un mot vertical qui se croise sur la troisième lettre
  * x un mot horizontal et deux mots verticaux qui se croisent sur la première et troisième lettre   
  * x WORD hozirontal, NIGHT not placed
+ * x WORD hozirontal, RUN vertical et NIGHT horizontal
  * 
- * - WORD hozirontal, RUN vertical et NIGHT horizontal
  * - si ajout d'un mot, alors tout ceux qu'on n'a pas placé peuvent être ressayés
  * - WORD hozirontal, LOL vertical
+ * WORD
+ *   U
+ *   NIGHT
  */

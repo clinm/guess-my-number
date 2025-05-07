@@ -23,24 +23,27 @@ export type Grid = {
 }
 
 export class Generator {
-    generate(input: { words: string[]; }): Grid {
-        const placedWords = [
+
+    private placedWords: PlacedWord[] = [];
+
+    generate(input: GridParams ): Grid {
+        this.placedWords = [
             { word: input.words[0], position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL }
         ];
 
         const unplacedWords = [];
 
         for (let i = 1; i < input.words.length; i++) {
-            const index = input.words[0].indexOf(input.words[i][0]);
-            if (index === -1) {
+            let wordWasPlaced = false;
+            
+            wordWasPlaced = this.placeWordOnGrid(input.words[i]);
+            if (!wordWasPlaced) {
                 unplacedWords.push(input.words[i]);
-            } else {
-                placedWords.push({ word: input.words[i], position: { x: index, y: 0 }, direction: Direction.VERTICAL });
             }
         }
 
         const generatedGrid: Grid = {
-            placedWords: placedWords
+            placedWords: this.placedWords
         };
 
         if (unplacedWords.length > 0) {
@@ -50,4 +53,30 @@ export class Generator {
         return generatedGrid;
     }
 
+
+    private placeWordOnGrid(wordToPlace: string) {
+        for (let placedWord of this.placedWords) {
+            const index = placedWord.word.indexOf(wordToPlace[0]);
+            if (index !== -1) {
+                const placedWordWithComputedPosition = this.computePlacedWord(wordToPlace, placedWord, index);
+                this.placedWords.push(placedWordWithComputedPosition);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private computePlacedWord(wordToPlace: string, placedWord: PlacedWord, index: number): PlacedWord {
+        const position: Position = { ...placedWord.position }; 
+        let direction: Direction;
+        
+        if (placedWord.direction == Direction.VERTICAL) {
+            direction = Direction.HORIZONTAL;
+            position.y += index;
+        } else {
+            direction = Direction.VERTICAL;
+            position.x += index;
+        }
+        return { word: wordToPlace, position: position, direction: direction };
+    }
 }
