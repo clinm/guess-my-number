@@ -26,10 +26,11 @@ export class Generator {
 
     private placedWords: PlacedWord[] = [];
 
+    private dictionnary: Map<string, { placedWord: PlacedWord, letterIndex: number}[]> = new Map();
+
     generate(input: GridParams ): Grid {
-        this.placedWords = [
-            { word: input.words[0], position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL }
-        ];
+        const firstWord = { word: input.words[0], position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL };
+        this.addWordToGrid(firstWord);
 
         const unplacedWords = [];
 
@@ -55,17 +56,31 @@ export class Generator {
 
 
     private placeWordOnGrid(wordToPlace: string) {
-        for (let placedWord of this.placedWords) {
-            for (var [candidateLetterIndex, letter] of wordToPlace.split("").entries()) { 
-                const index = placedWord.word.indexOf(letter);
-                if (index !== -1) {
-                    const placedWordWithComputedPosition = this.computePlacedWord(wordToPlace, placedWord, index, candidateLetterIndex);
-                    this.placedWords.push(placedWordWithComputedPosition);
-                    return true;
-                }
+        for (var [candidateLetterIndex, letter] of wordToPlace.split("").entries()) { 
+            
+            if (this.dictionnary.has(letter)) {
+                const {placedWord, letterIndex} = this.dictionnary.get(letter)![0]; 
+                const placedWordWithComputedPosition = this.computePlacedWord(wordToPlace, placedWord, letterIndex, candidateLetterIndex);
+                this.addWordToGrid(placedWordWithComputedPosition);
+                return true;
+
             }
         }
         return false;
+    }
+
+    private addWordToGrid(placedWord: PlacedWord) {
+        this.placedWords.push(placedWord);
+        this.updateDictionnary(placedWord);
+    }
+
+    private updateDictionnary(placedWord: PlacedWord) {
+        for (var [letterIndex, letter] of placedWord.word.split("").entries()) {
+            if (!this.dictionnary.has(letter)) {
+                this.dictionnary.set(letter, []);
+            }
+            this.dictionnary.get(letter)!.push({ placedWord: placedWord, letterIndex: letterIndex });
+        }
     }
 
     private computePlacedWord(wordToPlace: string, placedWord: PlacedWord, index: number, shiffedStart: number): PlacedWord {
