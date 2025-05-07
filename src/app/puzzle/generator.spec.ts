@@ -166,6 +166,27 @@ describe("Generator", () => {
         expect(res).toEqual(expected);
     });
 
+    it("Example : should place 'WORD' as horizontal, 'WEEK' vertical and not 'OAT' because it touches WEEK", () => {
+        // GIVEN
+        const generator = new Generator();
+
+        // WHEN
+        const expected: Grid = {
+            placedWords: [
+                { word: "WORD", position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL },
+                { word: "WEEK", position: { x: 0, y: 0 }, direction: Direction.VERTICAL }
+            ],
+            unplacedWords: ["OAT"]
+        };
+
+        const res = generator.generate({
+            words: ["WORD", "WEEK", "OAT"],
+        });
+
+        // THEN
+        expect(res).toEqual(expected);
+    });
+
 });
 
 /**
@@ -178,9 +199,18 @@ describe("Generator", () => {
  * X WORD hozirontal, LOL vertical
  * X peut pas utiliser la même lettre plusieurs fois
  * 
+ * 
+ * # plusieurs tentatives de grille
  * - si ajout d'un mot, alors tout ceux qu'on n'a pas placé peuvent être ressayés
- * -> WORD, WEEK, OAT cannot be placed
  * - tester plusieurs combinaisons si on ne peut pas tout placer sur la grille (récursif)
+ * 
+ * - WORD, WEEK, OAT cannot be placed
+ * - un mot qui croise deux mots
+ * 
+ * # tester plusieurs matchs
+ * WORD, WEEK, TOTO should place TOTO with second 'O' as vertical
+ * 
+ * 
  * WORD
  *   U
  *   NIGHT
@@ -188,6 +218,17 @@ describe("Generator", () => {
  * WORD
  * E U
  * E N
+ * K
+ * 
+ * WORD
+ * EA
+ * ET
+ * L
+ * 
+ *  L
+ * WORD
+ * EL
+ * E
  * K
  * 
  *  L 

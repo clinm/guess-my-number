@@ -35,9 +35,7 @@ export class Generator {
         const unplacedWords = [];
 
         for (let i = 1; i < input.words.length; i++) {
-            let wordWasPlaced = false;
-            
-            wordWasPlaced = this.placeWordOnGrid(input.words[i]);
+            let wordWasPlaced = this.placeWordOnGrid(input.words[i]);
             if (!wordWasPlaced) {
                 unplacedWords.push(input.words[i]);
             }
@@ -60,18 +58,29 @@ export class Generator {
             
             if (this.dictionnary.has(letter)) {
                 const matchingPlacedWords = this.dictionnary.get(letter)!;
-                const {placedWord, letterIndex} = matchingPlacedWords.pop()!;
-                if (matchingPlacedWords.length === 0) {
-                    this.dictionnary.delete(letter);
-                }
-                
+
+                const {placedWord, letterIndex} = matchingPlacedWords[0];
                 const placedWordWithComputedPosition = this.computePlacedWord(wordToPlace, placedWord, letterIndex, candidateLetterIndex);
-                this.addWordToGrid(placedWordWithComputedPosition, candidateLetterIndex);
-                return true;
+
+                if (this.canAddOnGrid(placedWordWithComputedPosition)) {
+                    matchingPlacedWords.pop();
+                    if (matchingPlacedWords.length === 0) {
+                        this.dictionnary.delete(letter);
+                    }
+                    
+                    this.addWordToGrid(placedWordWithComputedPosition, candidateLetterIndex);
+                    return true;
+                }
 
             }
         }
         return false;
+    }
+
+    private canAddOnGrid(candidate: PlacedWord): boolean {
+        return !this.placedWords
+                    .filter(w => w.direction === candidate.direction)
+                    .some(w => Math.abs(w.position.x - candidate.position.x) === 1);
     }
 
     private addWordToGrid(placedWord: PlacedWord, linkedLetterIndex: number = -1) {
@@ -84,7 +93,7 @@ export class Generator {
             if (letterIndex === linkedLetterIndex) {
                 continue;
             }
-            
+
             if (!this.dictionnary.has(letter)) {
                 this.dictionnary.set(letter, []);
             }
