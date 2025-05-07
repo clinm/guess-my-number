@@ -27,10 +27,11 @@ export class Generator {
             { word: input.words[0], position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL }
         ];
 
-        if (input.words.length === 2) {
-            const index = input.words[0].indexOf(input.words[1][0]);
-            placedWords.push({ word: input.words[1], position: { x: index, y: 0 }, direction: Direction.VERTICAL });
+        for (let i = 1; i < input.words.length; i++) {
+            const index = input.words[0].indexOf(input.words[i][0]);
+            placedWords.push({ word: input.words[i], position: { x: index, y: 0 }, direction: Direction.VERTICAL });
         }
+        
         return {
             placedWords: placedWords
         };
