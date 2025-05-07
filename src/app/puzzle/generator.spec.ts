@@ -1,4 +1,4 @@
-import { Generator, Grid } from "./generator";
+import { Direction, Generator, Grid } from "./generator";
 
 describe("Generator", () => {
 
@@ -9,7 +9,7 @@ describe("Generator", () => {
         // WHEN
         const expected: Grid = {
             placedWords: [
-                { word: "WORD", position: { x: 0, y: 0 }, direction: "horizontal" }
+                { word: "WORD", position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL }
             ]
         };
 
@@ -22,11 +22,32 @@ describe("Generator", () => {
 
     });
 
+    it("Example : should place 'WORD' as hozizontal and 'WEEK' as vertical", () => { 
+        // GIVEN
+        const generator = new Generator();
+
+        // WHEN
+        const expected: Grid = {
+            placedWords: [
+                { word: "WORD", position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL },
+                { word: "WEEK", position: { x: 0, y: 0 }, direction: Direction.VERTICAL }
+            ]
+        };
+
+        const res = generator.generate({
+            words: ["WORD", "WEEK"],
+        });
+
+        // THEN
+        expect(res).toEqual(expected);
+
+    });
+
 });
 
 /**
  * x un seul mot hozizontal
- * - un mot horizontal et un mot vertical qui se croise sur la première lettre
- * - un mot horizontal et un mot vertical qui se croise sur la deuxième lettre
+ * x un mot horizontal et un mot vertical qui se croise sur la première lettre
  * - un mot horizontal et un mot vertical qui se croise sur la troisième lettre
+ * - un mot horizontal et deux mots verticaux qui se croisent sur la première et troisième lettre   
  */
