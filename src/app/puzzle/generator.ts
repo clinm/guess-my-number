@@ -80,7 +80,21 @@ export class Generator {
     private canAddOnGrid(candidate: PlacedWord): boolean {
         return !this.placedWords
                     .filter(w => w.direction === candidate.direction)
-                    .some(w => Math.abs(w.position.x - candidate.position.x) === 1);
+                    .filter(w => Math.abs(w.position.x - candidate.position.x) === 1)
+                    .some(w => {
+                        const beginW = w.position.y;
+                        const endW = w.position.y + w.word.length - 1;
+
+                        const beginC = candidate.position.y;
+                        const endC = candidate.position.y + candidate.word.length - 1;
+
+
+                        return (beginW > beginC && beginW < endC)
+                        || (endW > beginC && endW < endC)
+                        || (beginC > beginW && beginC < endW)
+                        || (endC > beginW && endC < endW);
+                        
+                    });
     }
 
     private addWordToGrid(placedWord: PlacedWord, linkedLetterIndex: number = -1) {

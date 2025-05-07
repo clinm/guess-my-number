@@ -187,6 +187,27 @@ describe("Generator", () => {
         expect(res).toEqual(expected);
     });
 
+    it("Example : should place 'WORD' as horizontal, 'WEEK' vertical and 'TOTO' on seconds 'O'", () => {
+        // GIVEN
+        const generator = new Generator();
+
+        // WHEN
+        const expected: Grid = {
+            placedWords: [
+                { word: "WORD", position: { x: 0, y: 0 }, direction: Direction.HORIZONTAL },
+                { word: "WEEK", position: { x: 0, y: 0 }, direction: Direction.VERTICAL },
+                { word: "TOTO", position: { x: 1, y: -3 }, direction: Direction.VERTICAL }
+            ]
+        };
+
+        const res = generator.generate({
+            words: ["WORD", "WEEK", "TOTO"],
+        });
+
+        // THEN
+        expect(res).toEqual(expected);
+    });
+
 });
 
 /**
@@ -198,31 +219,38 @@ describe("Generator", () => {
  * x WORD hozirontal, RUN vertical et NIGHT horizontal
  * X WORD hozirontal, LOL vertical
  * X peut pas utiliser la même lettre plusieurs fois
- * 
+ * x WORD, WEEK, OAT cannot be placed
+ * WORD, WEEK, TOTO should place TOTO with second 'O' as vertical
  * 
  * # plusieurs tentatives de grille
  * - si ajout d'un mot, alors tout ceux qu'on n'a pas placé peuvent être ressayés
  * - tester plusieurs combinaisons si on ne peut pas tout placer sur la grille (récursif)
  * 
- * - WORD, WEEK, OAT cannot be placed
  * - un mot qui croise deux mots
+ * croise un mot mais avec la bonne lettre
  * 
  * # tester plusieurs matchs
- * WORD, WEEK, TOTO should place TOTO with second 'O' as vertical
  * 
  * 
  * WORD
  *   U
  *   NIGHT
  * 
+ * 
+ *  T
+ *  O
+ *  T
  * WORD
- * E U
- * E N
+ * E 
+ * E 
  * K
  * 
- * WORD
- * EA
- * ET
+ *  T
+ *  OATS
+ *  T  O
+ * WORDU
+ * E   T
+ * E   H
  * L
  * 
  *  L
@@ -230,6 +258,20 @@ describe("Generator", () => {
  * EL
  * E
  * K
+ * 
+ * 
+ *  T
+ *  O
+ *  T
+ * WORD
+ * E
+ * E
+ * K
+ * 
+ * WEEK
+ * O A
+ * R T
+ * D
  * 
  *  L 
  * WORD
