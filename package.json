@@ -34,7 +34,7 @@
     "@angular-devkit/build-angular": "^19.2.15",
     "@angular/cli": "^19.2.15",
     "@angular/compiler-cli": "^19.2.14",
-    "@nx/vite": "^20.8.2",
+    "@nx/vite": "^21.0.0",
     "@stryker-mutator/typescript-checker": "^8.7.1",
     "@stryker-mutator/vitest-runner": "^8.7.1",
     "@types/jasmine": "~5.1.0",
