@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from "@angular/material/button";
@@ -13,7 +13,7 @@ import { GameViewModel, GameVM } from './game.viewmodel';
     selector: 'home-root',
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss',
-    imports: [MatToolbarModule, CommonModule, MatCardModule, FormsModule, MatInputModule, MatButtonModule, MatIconModule]
+    imports: [MatToolbarModule, MatCardModule, FormsModule, MatInputModule, MatButtonModule, MatIconModule]
 })
 export class HomeComponent implements OnInit {
   
