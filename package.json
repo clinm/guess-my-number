@@ -39,7 +39,7 @@
     "@stryker-mutator/vitest-runner": "^9.0.1",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "^5.9.0",
-    "jsdom": "^26.0.0",
+    "jsdom": "^27.0.0",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^5.1.4",
